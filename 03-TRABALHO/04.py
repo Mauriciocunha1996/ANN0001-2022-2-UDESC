@@ -2,12 +2,11 @@
 f1(x)=1, f2(x)=x, f3(x)=cos(x), f4(x)=x2, f5(x)=sin(x), f6(x)=x3, f7(x)=cos(2x), f8(x)=x4  e  f9(x)=sin(3x)
 Encontre os coeficientes da combinação linear
 g(x)=c1f1(x)+c2f2(x)+c3f3(x)+c4f4(x)+c5f5(x)+c6f6(x)+c7f7(x)+c8f8(x)+c9f9(x)
-que melhor se aproxima da função f(x)=xsin(4xcos(ln(1+x2))) no intervalo [a,b], com a=0.154 e b=2.007. Para o cálculo dos coeficientes ci, use o método da quadratura gaussiana que seja exato em polinômios de grau menor que 24. Em seguida calcule g(x) para os seguintes valores de x
-x1=0.235, x2=1.065 e x3=1.501.
-A função g(x) é uma aproximação para a função f(x) no intervalo [0.154,2.007] com erro dado por
-erro=∫2.0070.154[f(x)−g(x)]2dx.
-Use o método da quadratura gaussiana com 10 nós para determinar o erro. """
-
+que melhor se aproxima da função f(x)=xsin(4xcos(ln(1+x2))) no intervalo [a,b], com a=0.17466 e b=2.12378. Para o cálculo dos coeficientes ck, use o método da quadratura gaussiana que seja exato em polinômios de grau menor que 24. Em seguida calcule g(x) para os seguintes valores de x
+x1=0.73944, x2=1.08362 e x3=1.76441.
+A função g(x) é uma aproximação para a função f(x) no intervalo [0.17466,2.12378] com erro dado por
+erro=∫2.123780.17466[f(x)−g(x)]2dx.
+Use a regra dos trapézios com 720 subintervalos para determinar o erro. """
 
 import math
 import numpy as np

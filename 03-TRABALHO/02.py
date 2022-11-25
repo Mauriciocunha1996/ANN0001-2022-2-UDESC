@@ -1,3 +1,13 @@
+"""Sejam
+f1(x)=1, f2(x)=x, f3(x)=x2, f4(x)=x3, f5(x)=x4, f6(x)=x5, f7(x)=x6, f8(x)=x7  e  f9(x)=x8
+Encontre os coeficientes da combinação linear
+g(x)=c1f1(x)+c2f2(x)+c3f3(x)+c4f4(x)+c5f5(x)+c6f6(x)+c7f7(x)+c8f8(x)+c9f9(x)
+que melhor se aproxima da função f(x)=x2exln(2+cos(−x2))−−−−−−−−−−−−−√ no intervalo [a,b], com a=−2.06485 e b=0.84178. Para o cálculo dos coeficientes ck, use a regra de Simpson com 256 subintervalos. Em seguida calcule g(x) para os seguintes valores de x
+x1=−1.53854, x2=−0.88865 e x3=0.46267.
+A função g(x) é uma aproximação para a função f(x) no intervalo [−2.06485,0.84178] com erro dado por
+erro=∫0.84178−2.06485[f(x)−g(x)]2dx.
+Use o método de Romberg com h=(b−a)/10 e erro da ordem de O(h8) para determinar o erro."""
+
 import numpy as np
 import math
 
