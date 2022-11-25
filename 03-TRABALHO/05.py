@@ -108,7 +108,7 @@ if __name__ == '__main__':
         print(f"{g(xi, coeffs)}, ")
         
         
-    
+        
     def func_erro(x):
         return pow((f(x) - g(x, coeffs)), 2)
     
