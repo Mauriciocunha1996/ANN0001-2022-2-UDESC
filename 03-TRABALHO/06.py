@@ -1,10 +1,10 @@
 """ Encontre os coeficientes dos 21 primeiros termos da série de Fourier da função f(x)=xsin(10x2e−x2) no intervalo [−π,π], ou seja, encontre os coeficientes da função
 g(x)=c+∑n=110[ancos(nx)+bnsin(nx)]
-Para o cálculo dos coeficientes c, an e bn, use o método de Romberg com h=2π/16 e erro da ordem de O(h8). Em seguida calcule g(x) para os seguintes valores de x
-x1=−2.908, x2=0.443 e x3=1.66.
+Para o cálculo dos coeficientes c, an e bn, use a regra de Simpson com 256 subintervalos. Em seguida calcule g(x) para os seguintes valores de x
+x1=−1.841, x2=0.734 e x3=2.073.
 A função g(x) é uma aproximação para a função f(x) no intervalo [−π,π] com erro dado por
 erro=∫π−π[f(x)−g(x)]2dx.
-Use o método da quadratura gaussiana com 10 nós para determinar o erro. """
+Use o método da quadratura gaussiana que seja exato em polinômios de grau menor que 24 para determinar o erro. """
 
 
 import math
