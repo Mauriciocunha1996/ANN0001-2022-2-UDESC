@@ -285,7 +285,7 @@ if __name__ == '__main__':
     # values = [-0.761, -0.173, 0.578]
     # method = ['simps', 128]
 
-    grau = 20
+    grau = 51
     subintervalo_para_erro = 1024
     funcs = [build_legendre_polynomial(i) for i in range(grau)]
     a = -1
