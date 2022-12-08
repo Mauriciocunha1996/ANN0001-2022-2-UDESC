@@ -1,3 +1,10 @@
+"""Considere o seguinte PVI
+y′=y(1−x)+x+2,y(x0)=y0,
+com x0=0.7477 e y0=1.26231. Use o método de Runge-Kutta de ordem 2 
+com b=0.53344 para estimar o valor da solução exata desse PVI nos pontos 
+xk=x0+kh, onde k=1,2,…,15. Use h=0.18185."""
+
+
 def RK2(f, x0, y0, h, n, b):
     a = 1 - b
     p = 1 / (2 * b)
