@@ -10,16 +10,32 @@ import math
 import numpy as np
 
 def legendre(x, n):
+    f0 = 1.0
+    f1 = x
+    fn = 0
+
+    ni = 2
+
     if n == 0:
-        return 1
+      return 1.0
+
     elif n == 1:
-        return x
+      return x
+
     else:
-        return ((2 * n - 1) * x * legendre(x, n - 1) - (n - 1) * legendre(x, n - 2)) / n
+
+      while ni <= n:
+          fn = ((2* ni - 1) * x * f1 - (ni - 1) * f0) / ni
+          f0 = f1
+          f1 = fn
+          ni += 1 
+
+    return fn
 
 def build_legendre_polynomial(n):
     def temp(t):
         return legendre(t, n)
+
     return temp
 
 def romberg(coluna_f1):
@@ -122,7 +138,7 @@ if __name__ == '__main__':
     b = 1
     subintervalos = 256
     order = 8
-    values = [-0.676,-0.161,0.554]
+    values = [-0.462, -0.248, 0.64]
     h = (b-(a))/10
     method = ['romberg', order, h]
     

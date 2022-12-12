@@ -10,7 +10,6 @@ A função g(x) é uma aproximação para a função f(x) no intervalo [−1,1] 
 erro=∫1−1[f(x)−g(x)]2dx.
 Use a regra dos trapézios com 1024 subintervalos para determinar o erro.
 '''
-
 def trapz(f, a, b, n):
     h = abs(b - a) / n
     sum_fx = 0
@@ -130,14 +129,28 @@ def change(f, a, b):
 
 
 def legendre(x, n):
-    if(n == 0):
-        return 1
-    elif(n == 1):
-        return x
+    f0 = 1.0
+    f1 = x
+    fn = 0
+
+    ni = 2
+
+    if n == 0:
+      return 1.0
+
+    elif n == 1:
+      return x
+
     else:
-        return ((2*n - 1)*x*legendre(x, n - 1) - (n - 1)*legendre(x, n - 2))/n
-    
-    
+
+      while ni <= n:
+          fn = ((2* ni - 1) * x * f1 - (ni - 1) * f0) / ni
+          f0 = f1
+          f1 = fn
+          ni += 1 
+
+    return fn
+
 def build_legendre_polynomial(n):
     def temp(t):
         return legendre(t, n)
@@ -271,41 +284,19 @@ if __name__ == '__main__':
               0.10193011981724044, 0.10193011981724044, 0.08327674157670475, 0.08327674157670475, 0.06267204833410907,
               0.06267204833410907, 0.04060142980038694, 0.04060142980038694, 0.017614007139152118, 0.017614007139152118]
 
-    # grau = 8
-    # funcs = [build_legendre_polynomial(i) for i in range(grau)]
-    # a = -1
-    # b = 1
-    # values = [-0.901, -0.051, 0.44]
-    # method = ['trapz', 256]
-
-    # grau = 12
-    # funcs = [build_legendre_polynomial(i) for i in range(grau)]
-    # a = -1
-    # b = 1
-    # values = [-0.761, -0.173, 0.578]
-    # method = ['simps', 128]
 
     grau = 51
     subintervalo_para_erro = 1024
     funcs = [build_legendre_polynomial(i) for i in range(grau)]
     a = -1
     b = 1
-    values = [-0.884 , 0.099, 0.58]
+    values = [-0.69, 0.09, 0.599]
     # quadratura gaussina
     exact_for_degree_less_than = 24
     order = str(int(exact_for_degree_less_than / 2))
     txt_order = ['raiz' + order, 'peso' + order]
-    method =  ['quadratura', locals()[txt_order[0]], locals()[txt_order[1]]]
+    method = ['quadratura', locals()[txt_order[0]], locals()[txt_order[1]]]
 
-
-    #grau = 16
-    #funcs = [build_legendre_polynomial(i) for i in range(grau)]
-    #a = -1
-    #b = 1
-    #values = [-0.707, -0.183, 0.616]
-    #order = 8
-    #h = 2/16
-    #method = ['romberg', order, h]
 
     coefs = best_func(f, funcs, a, b, method)
 
@@ -327,5 +318,6 @@ if __name__ == '__main__':
         return (f(x) - g(x)) ** 2
 
 
-    erro = trapz(func_erro,a,b, subintervalo_para_erro)
-    print(erro)
+    erro = trapz(func_erro, a, b, subintervalo_para_erro)
+
+    print(f'{erro}')
