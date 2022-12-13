@@ -1,25 +1,36 @@
-
-"""Seja Tn o polinômio de Chebyshev de grau n definido no intervalo [−1,1] por
-Tn(x)=cos(n⋅arccos(x)).
-Seja
-g(x)=c0T0(x)+c1T1(x)+c2T2(x)+c3T3(x)
-uma combinação linear dos 5 primeiros polinômios de Chebyshev. Encontre os coeficientes c0,c1,…,c4 tal que g(x) se aproxime o melhor possível da função f(x)=xsin(−6x2) no intervalo [−1,1]. Para o cálculo dos coeficientes ck, use a regra dos trapézios com 8192 subintervalos. Em seguida calcule g(x) para os seguintes valores de x
-x1=−0.753, x2=−0.209 e x3=0.575.
-A função g(x) é uma aproximação para a função f(x) no intervalo [−1,1] com erro dado por
-erro=∫1−1[f(x)−g(x)]2dx.
-Use a regra dos trapézios com 512 subintervalos para determinar o erro."""
-
 import math
 import numpy as np
 
-def trapz(f, a, b, n):
+def simps(f, a, b, n):
+    if n % 2 != 0 or n < 1:
+        raise ValueError("n deve ser par e maior que 1")
+
     h = (b - a) / n
+    soma_odd, soma_even = 0, 0
+    for k in range(1, n , 2):
+        soma_odd += f(a + k * h)
+    for k in range(2, n, 2):
+        soma_even += f(a + k * h)
+    return (f(a) + 4 * soma_odd + 2 * soma_even + f(b)) * (h / 3)
+
+def romberg(x, b=1):
+    n = len(x)
+    for k in range(1, n):
+        for i in range(n - k):
+            numer = 4 ** (b * k) * x[i + 1] - x[i]
+            denom = 4 ** (b * k) - 1
+            x[i] = numer/denom
+    return x[0]
+
+def trapz(f, a, b, h):
+    n = int((b - a) / h)
     soma = 0
     for k in range(1, n):
         soma += (f(a +  k * h))
     soma *= 2
     soma += (f(a) + f(b))
     return soma * (h / 2)
+
 
 def T(n, x):
     return math.cos(n * math.acos(x))
@@ -36,7 +47,7 @@ def aprox(f, f_list):
             # altere dependendo do metodo de integração
             a = -1
             b = 1
-            a_ij = trapz(f_ji, a, b, 8192)
+            a_ij = simps(f_ji, a, b, 4096)
             
             A[i][j] = a_ij
             A[j][i] = a_ij
@@ -47,7 +58,7 @@ def aprox(f, f_list):
         # altere dependendo do metodo de integração
         a = -1
         b = 1
-        b_i = trapz(ff_i, a, b, 8192)
+        b_i = simps(ff_i, a, b, 4096)
 
         B.append(b_i)
     
@@ -63,18 +74,23 @@ def build_g(coeffs, f_list):
 
 if __name__ == "__main__":
     def f(x):
-        return x * math.sin(-6 * x **2)
-
+        return x * math.cos(10 * x**2 * math.exp(-x**2))
+    #quantidade de c
     f_list = [
         lambda x: T(0, x),
         lambda x: T(1, x),
         lambda x: T(2, x),
         lambda x: T(3, x),
-        lambda x: T(4, x)
+        lambda x: T(4, x),
+        lambda x: T(5, x),
+        lambda x: T(6, x),
+        lambda x: T(7, x),
+        lambda x: T(8, x),
+        lambda x: T(9, x)
     ]
     a = -1
     b = 1
-    values = [-0.898, -0.117, 0.46]
+    values = [-0.836, 0.208, 0.71]
 
     coeffs = aprox(f, f_list)
     g = build_g(coeffs, f_list)
@@ -89,7 +105,11 @@ if __name__ == "__main__":
         return (f(x) - g(x)) ** 2
 
 
-    erro = trapz(f_erro, a, b, 512)
-    print(erro)
-
+    h = (b-(a))/10
+    erro_da_ordem = int(8/2)
+    hs = [h / 2 ** i for i in range(erro_da_ordem)]
+    col1 = [trapz(f_erro, a, b, hi) for hi in hs]
+   
+    r = romberg(col1)
+    print(r)
     
