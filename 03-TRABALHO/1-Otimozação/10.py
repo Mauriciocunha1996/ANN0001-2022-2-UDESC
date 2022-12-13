@@ -10,14 +10,15 @@ A função g(x) é uma aproximação para a função f(x) no intervalo [−1,1] 
 erro=∫1−1[f(x)−g(x)]2dx.
 Use a regra dos trapézios com 1024 subintervalos para determinar o erro.
 '''
-def trapz(f, a, b, n):
-    h = abs(b - a) / n
-    sum_fx = 0
-
-    for i in range(1, n):
-        sum_fx += f(a + i * h)
-
-    return (f(a) + 2 * sum_fx + f(b)) * h / 2
+def trapz(f, a, b, h):
+    n = int((b - a)/h)
+    soma = 0
+    for k in range(1, n):
+        soma += f(a + k * h)
+    soma *= 2
+    soma += f(a) + f(b)
+    soma *= h/2
+    return soma
 
 
 def simps(f, a, b, n):
@@ -158,9 +159,10 @@ def build_legendre_polynomial(n):
     return temp
 
 def f(x):
-    return  math.log(1 + x**2) * math.sin(10 * x)
+    return math.log(1 + x**2) * math.sin(10 * x)
 
 if __name__ == '__main__':
+    
     raiz2 = [-0.5773502691896257, 0.5773502691896257]
     peso2 = [1.0, 1.0]
 
@@ -284,13 +286,12 @@ if __name__ == '__main__':
               0.10193011981724044, 0.10193011981724044, 0.08327674157670475, 0.08327674157670475, 0.06267204833410907,
               0.06267204833410907, 0.04060142980038694, 0.04060142980038694, 0.017614007139152118, 0.017614007139152118]
 
-
     grau = 51
     subintervalo_para_erro = 1024
     funcs = [build_legendre_polynomial(i) for i in range(grau)]
     a = -1
     b = 1
-    values = [-0.69, 0.09, 0.599]
+    values = [-0.817, -0.134, 0.855]
     # quadratura gaussina
     exact_for_degree_less_than = 24
     order = str(int(exact_for_degree_less_than / 2))
