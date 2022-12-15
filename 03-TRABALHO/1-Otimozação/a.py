@@ -91,8 +91,8 @@ def ortog_funcs(func_list, a, b, n):
 if __name__ == '__main__':
     
     # Exemplo 01:
-    a=-1.34812
-    b=1.117
+    a = -1.44065
+    b=1.32823
     n = 256
 
     def f1(x): return 1
@@ -122,11 +122,15 @@ if __name__ == '__main__':
     print(a_41, end=',\n')
     print(a_42, end=',\n')
     print(a_43, end=',\n')
-    
+     
 
     # Função para aproximar g(x):
     def f(x): 
-        return log(x+5, e)
-
+        if x >= 0:
+            return 2
+        return -2
+    
+    
     coeffs = aprox_coeffs_ort(func_list, f, a, b, n)
     g = build_aprox_func(func_list, coeffs)
+    print(coeffs)
