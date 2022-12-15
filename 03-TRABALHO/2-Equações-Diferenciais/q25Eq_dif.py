@@ -47,7 +47,7 @@ def p(t):
     # resolver:
     # solve p'(t) = k * (1 - p(t)), p(0) = p0
     # no wolfram, substituindo o valor de p0 dado na questao
-    coef = 0.00531
+    coef = 0.9986
     return 1 - coef * math.exp(-k*t)
     
 for i in range(150):

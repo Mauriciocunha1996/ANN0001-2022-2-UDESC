@@ -126,8 +126,8 @@ if __name__ == '__main__':
     def f(x):
         return x * sin(4 * x * cos(log(1 + x**2)))
 
-    a = 0.05457
-    b = 2.10017
+    a = 0.07399
+    b = 2.08047
     # Obs.01: o valor de n não importa aqui pois estaremos usando o método da quadratura gaussiana.
     # Obs.02: k é definido dentro da função para uso do método de Romberg (função 'Richardson').
 
@@ -136,7 +136,7 @@ if __name__ == '__main__':
         print(f"{ck},")
 
     g = build_aprox_func(func_list, coeffs)
-    values = [0.40908 , 1.23409, 1.65076]
+    values = [0.42083 , 1.1148, 1.52732]
 
     for xi in values:
         print(f"{g(xi)},")

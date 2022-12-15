@@ -1,6 +1,7 @@
 from math import *
 import numpy as np
 
+
 # Métodos de integração (necessários para solução do sistema de equações):
 def trapeze_sum(f, a, b, n):
     sum = f(a)/2 + f(b)/2
@@ -90,8 +91,8 @@ def ortog_funcs(func_list, a, b, n):
 if __name__ == '__main__':
     
     # Exemplo 01:
-    a = -1.29686
-    b=1.38673
+    a = -1
+    b = 1
     n = 256
 
     def f1(x): return 1
@@ -113,6 +114,8 @@ if __name__ == '__main__':
     a_43 = proj_k(f4, g3, a, b, n)
     def g4(x): return f4(x) - a_41*g1(x) - a_42*g2(x) - a_43*g3(x)
 
+    func_list = [g1, g2, g3, g4]
+    
     print(a_21, end=',\n')
     print(a_31, end=',\n')
     print(a_32, end=',\n')
@@ -120,11 +123,11 @@ if __name__ == '__main__':
     print(a_42, end=',\n')
     print(a_43, end=',\n')
      
-    func_list = [g1, g2, g3, g4]
-
     # Função para aproximar g(x):
     def f(x): 
         return log(x+5, e)
 
     coeffs = aprox_coeffs_ort(func_list, f, a, b, n)
     g = build_aprox_func(func_list, coeffs)
+
+    
