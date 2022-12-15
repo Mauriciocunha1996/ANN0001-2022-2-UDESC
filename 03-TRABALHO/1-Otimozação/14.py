@@ -2,23 +2,25 @@ import math
 import numpy as np
 
 '''
-Seja Pn(x) o polinômio de Legendre de grau n. Encontre os coeficientes da combinação linear
-g(x)=∑k=050ckPk(x)
-que melhor se aproxima da função f(x)=ln(1+x2)sin(10x) no intervalo [−1,1]. Para o cálculo dos coeficientes ck, use o método da quadratura gaussiana que seja exato em polinômios de grau menor que 24. Em seguida calcule g(x) para os seguintes valores de x,
-x1=−0.884, x2=0.099 e x3=0.58.
+Seja Tn o polinômio de Chebyshev de grau n definido no intervalo [−1,1] por
+Tn(x)=cos(n⋅arccos(x)).
+Seja
+g(x)=c0T0(x)+c1T1(x)+c2T2(x)+⋯+c21T21(x)
+uma combinação linear dos 22 primeiros polinômios de Chebyshev. Encontre os coeficientes c0,c1,…,c21 tal que g(x) se aproxime o melhor possível da função f(x)=ln(1+x2)sin(10x) no intervalo [−1,1]. Para o cálculo dos coeficientes ck, use o método da quadratura gaussiana que seja exato em polinômios de grau menor que 26. Em seguida calcule g(x) para os seguintes valores de x
+x1=−0.692, x2=0.059 e x3=0.802.
 A função g(x) é uma aproximação para a função f(x) no intervalo [−1,1] com erro dado por
 erro=∫1−1[f(x)−g(x)]2dx.
-Use a regra dos trapézios com 1024 subintervalos para determinar o erro.
+Use a regra dos trapézios com 4096 subintervalos para determinar o erro.
 '''
-def trapz(f, a, b, h):
-    n = int((b - a)/h)
-    soma = 0
-    for k in range(1, n):
-        soma += f(a + k * h)
-    soma *= 2
-    soma += f(a) + f(b)
-    soma *= h/2
-    return soma
+
+def trapz(f, a, b, n):
+    h = abs(b - a) / n
+    sum_fx = 0
+
+    for i in range(1, n):
+        sum_fx += f(a + i * h)
+
+    return (f(a) + 2 * sum_fx + f(b)) * (h / 2)
 
 
 def simps(f, a, b, n):
@@ -72,25 +74,24 @@ def best_func(f, funcs, a, b, method: ['trapz', 256]):
 
     for i in range(k):
         for j in range(k):
-            if i == j:
-                if j >= i:
-                    def f_ij(x):
-                        return funcs[j](x) * funcs[i](x)
+            if j >= i:
+                def f_ij(x):
+                    return  funcs[j](x) * funcs[i](x)
 
-                    if method[0] == 'trapz':
-                        A[i][j] = trapz(f_ij, a, b, method[1])
-                    elif method[0] == 'simps':
-                        A[i][j] = simps(f_ij, a, b, method[1])
-                    elif method[0] == 'romberg':
-                        tam = int(method[1] / 2)
-                        hs = [method[2] / 2 ** ki for ki in range(tam)]
-                        coluna_f1 = [trapz_romberg(f_ij, a, b, hi) for hi in hs]
-                        A[i][j] = romberg(coluna_f1)
-                    elif method[0] == 'quadratura':
-                        A[i][j] = quadratura(change(f_ij, a, b), method[1], method[2])
+                if method[0] == 'trapz':
+                    A[i][j] = trapz(f_ij, a, b, method[1])
+                elif method[0] == 'simps':
+                    A[i][j] = simps(f_ij, a, b, method[1])
+                elif method[0] == 'romberg':
+                    tam = int(method[1] / 2)
+                    hs = [method[2] / 2 ** ki for ki in range(tam)]
+                    coluna_f1 = [trapz_romberg(f_ij, a, b, hi) for hi in hs]
+                    A[i][j] = romberg(coluna_f1)
+                elif method[0] == 'quadratura':
+                    A[i][j] = quadratura(change(f_ij, a, b), method[1], method[2])
 
-                else:
-                    A[i][j] = A[j][i]
+            else:
+                A[i][j] = A[j][i]
 
         def ffi(x):
             return f(x) * funcs[i](x)
@@ -129,7 +130,7 @@ def change(f, a, b):
     return g
 
 
-def legendre(x, n):
+def chebyshev(x, n):
     f0 = 1.0
     f1 = x
     fn = 0
@@ -145,24 +146,21 @@ def legendre(x, n):
     else:
 
       while ni <= n:
-          fn = ((2* ni - 1) * x * f1 - (ni - 1) * f0) / ni
+          fn = 2*x*f1 - f0
           f0 = f1
           f1 = fn
           ni += 1 
 
     return fn
 
-def build_legendre_polynomial(n):
+def build_chebyshev_polynomial(n):
     def temp(t):
-        return legendre(t, n)
+        return chebyshev(t, n)
 
     return temp
 
-def f(x):
-    return math.log(1 + x**2) * math.sin(10 * x)
 
 if __name__ == '__main__':
-    
     raiz2 = [-0.5773502691896257, 0.5773502691896257]
     peso2 = [1.0, 1.0]
 
@@ -286,25 +284,31 @@ if __name__ == '__main__':
               0.10193011981724044, 0.10193011981724044, 0.08327674157670475, 0.08327674157670475, 0.06267204833410907,
               0.06267204833410907, 0.04060142980038694, 0.04060142980038694, 0.017614007139152118, 0.017614007139152118]
 
-    grau = 51
-    subintervalo_para_erro = 1024
-    funcs = [build_legendre_polynomial(i) for i in range(grau)]
+    def f(x):
+      return  math.log(1 + x**2) * math.sin(10*x)
+
+    grau = 22
+
     a = -1
     b = 1
-    values = [-0.648, -0.049,0.755]
-    # quadratura gaussina
-    exact_for_degree_less_than = 24
+    exact_for_degree_less_than = 26
     order = str(int(exact_for_degree_less_than / 2))
     txt_order = ['raiz' + order, 'peso' + order]
-    method = ['quadratura', locals()[txt_order[0]], locals()[txt_order[1]]]
+    method =  ['quadratura', locals()[txt_order[0]], locals()[txt_order[1]]]
 
+    subintervalo_para_erro = 4096
+    funcs = [build_chebyshev_polynomial(i) for i in range(grau)]
 
+    
+    values = [-0.692, 0.059, 0.802]
     coefs = best_func(f, funcs, a, b, method)
 
     coefs = [ci for ci in coefs]
 
     for i in coefs:
         print(f'{i}, ')
+
+    print()
 
     def g(x):
         return sum(ci * fi(x) for ci, fi in zip(coefs, funcs))
@@ -314,11 +318,11 @@ if __name__ == '__main__':
         print(f'{g(x)}, ')
 
 
+    print()
 
     def func_erro(x):
         return (f(x) - g(x)) ** 2
 
+    erro = trapz(func_erro,a,b, subintervalo_para_erro)
 
-    erro = trapz(func_erro, a, b, subintervalo_para_erro)
-
-    print(f'{erro}')
+    print(erro)
