@@ -64,7 +64,7 @@ def romberg(coluna_f1):
     return coluna_f1[0]
 
 
-def best_func(f, funcs, a, b, method: ['trapz', 256]):
+def best_func(f, funcs, a, b, method):
     k = len(funcs)
 
     A = [[0 for _ in range(k)] for _ in range(k)]
@@ -291,7 +291,7 @@ if __name__ == '__main__':
     funcs = [build_legendre_polynomial(i) for i in range(grau)]
     a = -1
     b = 1
-    values = [-0.707 , 0.093, 0.538]
+    values = [0.662, 0.08, 0.709]
     # quadratura gaussina
     exact_for_degree_less_than = 24
     order = str(int(exact_for_degree_less_than / 2))

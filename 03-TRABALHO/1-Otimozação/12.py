@@ -90,7 +90,7 @@ if __name__ == "__main__":
     ]
     a = -1
     b = 1
-    values = [-0.836, 0.208, 0.71]
+    values = [-0.902, 0.047, 0.554]
 
     coeffs = aprox(f, f_list)
     g = build_g(coeffs, f_list)

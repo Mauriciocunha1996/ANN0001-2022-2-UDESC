@@ -15,23 +15,15 @@ def trapz(f, a, b, n):
 def coef(f,g):
     # a = -1.05973 
     # b=1.4086
-    a=-1.35805
-    b=1.4058
+    a=-1.13476  
+    b=1.1433
     n = 256
     func = lambda x: (f(x) * g(x) ) 
     func2 = lambda x: g(x) * g(x)
-    numer = trapz(change(func,a,b),-1,1,n)
-    denom = trapz(change(func2,a,b),-1,1,n)
+    numer = trapz(func,a,b,n)
+    denom = trapz(func2,a,b,n)
     
     return (numer/denom)
-
-
-
-def change(f, a, b):
-    def g(u):
-        return f((b + a) / 2 + (b - a) * u / 2) * (b - a) / 2
-
-    return g
 
 
 
