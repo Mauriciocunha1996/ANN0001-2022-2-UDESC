@@ -3,7 +3,8 @@ image is not available
 Figura 1: Uma lancha puxando um esquiador aquático por uma corda.
 O esquiador aquático é puxado por uma corda de comprimento constante a que é mantida esticada ao longo do trajeto. Assumindo que a corda é sempre tangente à curva C, é possível concluir que a trajetória do esquiador deve satisfazer à seguinte equação diferencial
 dydx=−ya2−y2−−−−−−√,y(x0)=y0.
-Se P0=(x0,y0), com x0=1.957 e y0=4.718, denota a posição inicial do esquiador. Use o método de Runge-Kutta de ordem 2 com b=0.612 para estimar a posição do esquiador nos pontos xk=x0+kh, onde k=1,2,…,10. Suponha que a=9.13 e h=0.097. """
+Se P0=(x0,y0), com x0=1.957 e y0=4.718, denota a posição inicial do esquiador. 
+Use o método de Runge-Kutta de ordem 2 com b=0.612 para estimar a posição do esquiador nos pontos xk=x0+kh, onde k=1,2,…,10. Suponha que a=9.13 e h=0.097. """
 
 import math
 

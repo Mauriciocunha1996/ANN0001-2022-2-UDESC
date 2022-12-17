@@ -10,16 +10,16 @@ A função g(x) é uma aproximação para a função f(x) no intervalo [−1,1] 
 erro=∫1−1[f(x)−g(x)]2dx.
 Use a regra dos trapézios com 1024 subintervalos para determinar o erro.
 '''
-def trapz(f, a, b, h):
-    n = int((b - a)/h)
+def trapz(f, a, b, n):
+    h = (b - a) / n
     soma = 0
     for k in range(1, n):
         soma += f(a + k * h)
     soma *= 2
-    soma += f(a) + f(b)
-    soma *= h/2
-    return soma
-
+    soma += f(a)
+    soma += f(b)
+    soma *= (h/2.0)
+    return print(f'{soma}')
 
 def simps(f, a, b, n):
     if n % 2 != 0:
@@ -291,7 +291,10 @@ if __name__ == '__main__':
     funcs = [build_legendre_polynomial(i) for i in range(grau)]
     a = -1
     b = 1
-    values = [-0.462, -0.248, 0.64]
+
+    
+
+    values = [-0.782, 0.165,0.59]
     # quadratura gaussina
     exact_for_degree_less_than = 24
     order = str(int(exact_for_degree_less_than / 2))
